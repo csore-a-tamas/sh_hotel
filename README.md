@@ -44,7 +44,42 @@ Before I would start to work on the task, in a real word scenario I would have q
 | PORT                                   | See [here](/src/main/resources/application.properties)  | The service will listen on this port for HTTP calls |
 | HOTEL-MINIMUM-PAYMENT-FOR-PREMIUM-ROOM | See [here](/src/main/resources/application.properties)  | Determinate the room category by payment offer      |
 
+# Usage
+
+## Postman Collection
+All the endpoints are presented in the attached [postman collection](misc/postman_collection.json)
+
 # Endpoints
+
+## Health
+For both of them we are using [Smallrye-health](https://quarkus.io/guides/smallrye-health)
+
+### Readiness
+
+|                                     |                                                                                                                                                    |
+|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Request type                        | `GET`                                                                                                                                              |
+| Path                                | `/readiness`                                                                                                                                       |
+| Response                            | A JSON with a `status` property [`UP`, `DOWN`] which comes from the `check` entries which is currenly empty as there are no dependencies to check. |
+
+<details>
+<summary>Response</summary>
+
+```json
+{
+    "status": "UP",
+    "checks": []
+}
+```
+
+</details>
+
+### 0.2. Liveness
+|                                     |                                                |
+|-------------------------------------|------------------------------------------------|
+| Request type                        | `GET`                                          |
+| Path                                | `/liveness`                                    |
+| Response                            | A similar JSON like the `/readiness` endpoint  |
 
 ## Hotel
 
