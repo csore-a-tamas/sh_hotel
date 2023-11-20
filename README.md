@@ -46,6 +46,171 @@ Before I would start to work on the task, in a real word scenario I would have q
 
 # Usage
 
+## Requirements
+- Java 11+
+- Maven 3.8.6+
+
+## Run the application
+
+### The IDE of your choice
+Just like any other application, you can run this too in your IDE.
+
+### Maven + Java
+From the root directory
+
+<details>
+<summary>To run the tests:</summary>
+
+```
+mvn clean verify -P with-tests
+```
+
+You should see something like
+
+```
+...
+...
+...
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.65 s -- in com.sh.controllers.HotelControllerIT
+2023-11-20 20:04:07,271 INFO  [io.quarkus] (main) sh_hotel stopped in 0.063s
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- maven-failsafe-plugin:3.1.2:verify (default) @ sh_hotel ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  27.939 s
+[INFO] Finished at: 2023-11-20T20:04:07+01:00
+[INFO] ------------------------------------------------------------------------
+
+```
+</details>
+
+<details>
+<summary>To build the application</summary>
+
+```
+mvn clean package
+```
+
+You should see something like
+
+```
+...
+...
+...
+[INFO] --- quarkus-maven-plugin:3.5.2:build (default) @ sh_hotel ---
+[INFO] [io.quarkus.deployment.pkg.steps.JarResultBuildStep] Building uber jar: ***\sh_hotel\target\sh_hotel-0.0.1-runner.jar
+[INFO] [io.quarkus.deployment.QuarkusAugmentor] Quarkus augmentation completed in 4960ms
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.451 s
+[INFO] Finished at: 2023-11-20T20:07:08+01:00
+[INFO] ------------------------------------------------------------------------
+```
+</details>
+
+<details>
+<summary>To run the application after one of the previous steps</summary>
+
+```
+java -jar target/sh_hotel-0.0.1-runner.jar
+```
+
+You should see something like
+
+```
+__  ____  __  _____   ___  __ ____  ______
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/
+2023-11-20 20:25:27,332 INFO  [io.quarkus] (main) sh_hotel 0.0.1 on JVM (powered by Quarkus 3.5.2) started in 1.204s. Listening on: http://0.0.0.0:8080
+2023-11-20 20:25:27,338 INFO  [io.quarkus] (main) Profile prod activated.
+2023-11-20 20:25:27,338 INFO  [io.quarkus] (main) Installed features: [cdi, hibernate-validator, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, vertx]
+```
+</details>
+
+
+### Docker
+From the root directory
+
+<details>
+<summary>Build the images</summary>
+
+```
+docker build -t sh/hotel_demo_test:0.0.1 -f test.Dockerfile .
+docker build -t sh/hotel_demo:0.0.1 -f Dockerfile .
+```
+</details>
+
+<details>
+<summary>Start the containers</summary>
+
+```
+docker run -d --name hotel_demo_test -p 8081:8080 sh/hotel_demo_test:0.0.1
+docker run -d --name hotel_demo -p 8080:8080 sh/hotel_demo:0.0.1 
+```
+</details>
+
+<details>
+<summary>Check the logs</summary>
+
+```
+docker logs hotel_demo_test -f
+docker logs hotel_demo -f
+```
+
+The tests are running for a while. Eventually you should see something like this:
+```
+...
+...
+...
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.504 s -- in com.sh.controllers.HotelControllerIT 2023-11-20 19:30:30,617 INFO  [io.quarkus] (main) sh_hotel stopped in 0.040s
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-failsafe-plugin:3.1.2:verify (default) @ sh_hotel ---
+[INFO] Failsafe report directory: /target/failsafe-reports
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  47.055 s
+[INFO] Finished at: 2023-11-20T19:30:30Z
+[INFO] ------------------------------------------------------------------------
+```
+
+The application starts very quickly. You should see something like this:
+```
+__  ____  __  _____   ___  __ ____  ______ 
+--/ __ \/ / / / _ | _ \/ //_/ / / / __/ 
+-/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
+2023-11-20 19:29:48,277 INFO  [io.quarkus] (main) sh_hotel 0.0.1 on JVM (powered by Quarkus 3.5.2) started in 1.325s. Listening on: http://0.0.0.0:8080
+2023-11-20 19:29:48,281 INFO  [io.quarkus] (main) Profile prod activated. 
+2023-11-20 19:29:48,282 INFO  [io.quarkus] (main) Installed features: [cdi, hibernate-validator, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, smallrye-health, vertx]
+```
+
+</details>
+
+<details>
+<summary>Stop the container</summary>
+
+```
+docker stop hotel_demo
+```
+
+the other one stops itself
+
+</details>
+
 ## Postman Collection
 All the endpoints are presented in the attached [postman collection](misc/postman_collection.json)
 
