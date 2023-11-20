@@ -37,6 +37,13 @@ Before I would start to work on the task, in a real word scenario I would have q
   - The Test 4 has an impossible state. 10 premium + 1 economy room could cover all the 10 potential quests instead of the 7-1 coverage the test implies.
     - Decision: Ignore the case in the minimum coverage as there are too many questionable variables
 
+# Configuration
+
+| Env variable                           | Default                                                 | Description                                         |
+|:---------------------------------------|:--------------------------------------------------------|:----------------------------------------------------|
+| PORT                                   | See [here](/src/main/resources/application.properties)  | The service will listen on this port for HTTP calls |
+| HOTEL-MINIMUM-PAYMENT-FOR-PREMIUM-ROOM | See [here](/src/main/resources/application.properties)  | Determinate the room category by payment offer      |
+
 # Endpoints
 
 ## Hotel
@@ -51,7 +58,7 @@ Calculate the best coverage for the rooms from the possible payments.
 | Path         | `/hotel/occupy`                                                         |
 | Content type | `application/json`                                                      |
 | Request body | [HotelOccupyRequest](src/main/java/com/sh/dtos/HotelOccupyRequest.java) |
-| Response     | List of [ResponseEntity](src/main/java/com/sh/dtos/ResponseEntity.java) |
+| Response     | List of [RoomGroup](src/main/java/com/sh/dtos/RoomGroup.java)           |
 
 <details>
 <summary>Request body</summary>
@@ -69,6 +76,27 @@ Calculate the best coverage for the rooms from the possible payments.
     12
   ]
 }
+```
+
+</details>
+<br>
+
+<details>
+<summary>Response</summary>
+
+```json
+[
+  {
+    "category": "PREMIUM",
+    "occupiedRoomCount": 1,
+    "income": 321
+  },
+  {
+    "category": "ECONOMY",
+    "occupiedRoomCount": 2,
+    "income": 33
+  }
+]
 ```
 
 </details>

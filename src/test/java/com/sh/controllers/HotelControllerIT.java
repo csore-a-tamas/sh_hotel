@@ -1,10 +1,13 @@
 package com.sh.controllers;
 
 import com.sh.dtos.HotelOccupyRequest;
+import com.sh.dtos.RoomGroup;
 import com.sh.enums.RoomCategory;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
 import jakarta.ws.rs.core.MediaType;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -44,6 +47,16 @@ public class HotelControllerIT
 
     private static HotelOccupyRequest getGoodRequest(){
         return getRequest(1,1);
+    }
+
+    private static List<RoomGroup> getResponse(
+            Integer premiumRoomCount,
+            Integer premiumIncome,
+            Integer economyRoomCount,
+            Integer economyIncome
+    ) {
+        return List.of(new RoomGroup().setCategory(RoomCategory.PREMIUM).setOccupiedRoomCount(premiumRoomCount).setIncome(premiumIncome),
+                       new RoomGroup().setCategory(RoomCategory.ECONOMY).setOccupiedRoomCount(economyRoomCount).setIncome(economyIncome));
     }
 
     private static Stream<Arguments> success_propertyStatesValidations_variations() {
@@ -132,5 +145,54 @@ public class HotelControllerIT
                    .post(path)
                    .then()
                    .statusCode(400);
+    }
+
+    private static Stream<Arguments> success_variations() {
+        return Stream.of(
+                Arguments.of("Test 1",
+                             getRequest(3,3),
+                             getResponse(3, 738,3, 167)
+                ),
+                Arguments.of("Test 2",
+                             getRequest(7,5),
+                             getResponse(6, 1054,4, 189)
+                ),
+                Arguments.of("Test 3",
+                             getRequest(2,7),
+                             getResponse(2, 583,4, 189)
+                ),
+//                TODO - The given test results does not match the given functionality
+//                Arguments.of("Test 4",
+//                             getRequest(10,1),
+//                             getResponse(7, 1153,1, 45)
+//                ),
+
+                Arguments.of("Test 4 - different response",
+                              getRequest(10,1),
+                              getResponse(9, 1221,1, 22)
+                )
+        );
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("success_variations")
+    @DisplayName("Success - Provided test cases")
+    public void success(String name, HotelOccupyRequest request, List<RoomGroup> expected) {
+        List<RoomGroup> actual =
+                RestAssured.with()
+                           .contentType(MediaType.APPLICATION_JSON)
+                           .body(request)
+                           .when()
+                           .post(path)
+                           .then()
+                           .statusCode(200)
+                           .extract()
+                           .as(new TypeRef<>(){});
+
+        Assertions.assertThat(actual)
+                  .as("Actual same as expected")
+                  .usingRecursiveComparison()
+                  .ignoringCollectionOrder()
+                  .isEqualTo(expected);
     }
 }
