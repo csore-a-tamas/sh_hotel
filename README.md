@@ -49,5 +49,27 @@ Calculate the best coverage for the rooms from the possible payments.
 |--------------|-------------------------------------------------------------------------|
 | Request type | `POST`                                                                  |
 | Path         | `/hotel/occupy`                                                         |
-| Request body | [Request](src/main/java/com/sh/dtos/Request.java)                       |
+| Content type | `application/json`                                                      |
+| Request body | [HotelOccupyRequest](src/main/java/com/sh/dtos/HotelOccupyRequest.java) |
 | Response     | List of [ResponseEntity](src/main/java/com/sh/dtos/ResponseEntity.java) |
+
+<details>
+<summary>Request body</summary>
+
+```json
+{
+  "roomCounts": {
+    "PREMIUM": 1,
+    "ECONOMY": 2
+  },
+  "paymentOffers": [
+    123,
+    321,
+    21,
+    12
+  ]
+}
+```
+
+</details>
+<br>
