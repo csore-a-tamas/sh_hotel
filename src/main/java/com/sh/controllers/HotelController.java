@@ -1,4 +1,4 @@
-package com.sh;
+package com.sh.controllers;
 
 import com.sh.dtos.HotelOccupyRequest;
 import com.sh.dtos.ResponseEntity;
