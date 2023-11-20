@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "ee3d8ad4-c805-496d-ba6f-026009569b2d",
+		"name": "sh_hotel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9528489"
+	},
+	"item": [
+		{
+			"name": "health",
+			"item": [
+				{
+					"name": "readiness",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/readiness",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"readiness"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "liveness",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/liveness",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"liveness"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "hotel",
+			"item": [
+				{
+					"name": "hotel/occupy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roomCounts\": {\r\n        \"PREMIUM\": 1,\r\n        \"ECONOMY\": 2\r\n    },\r\n    \"paymentOffers\": [\r\n        123,\r\n        321,\r\n        21,\r\n        12\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/hotel/occupy",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"hotel",
+								"occupy"
+							]
+						},
+						"description": "```\nCalculate the best coverage for the rooms from the possible payments.\nTo see more information, please check the service's README.\n\n ```"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
